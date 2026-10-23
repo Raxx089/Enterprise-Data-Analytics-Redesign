@@ -208,7 +208,7 @@ function Notifications() {
 }
 
 export default function Shell({ children }: { children: ReactNode }) {
-  const { theme, setTheme, role, setRole, userName, workspace, setWorkspace, level, toast, filters, setFilters, setOnboarded, log, resetDemo } = useStore()
+  const { theme, setTheme, role, setRole, userName, workspace, setWorkspace, level, toast, filters, setFilters, setOnboarded, setSignedIn, log, resetDemo } = useStore()
   const [mobileNav, setMobileNav] = useState(false)
   const [search, setSearch] = useState(false)
   const [help, setHelp] = useState(false)
@@ -244,7 +244,7 @@ export default function Shell({ children }: { children: ReactNode }) {
             <IconButton label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}</IconButton>
             <Menu label={`Account menu, ${userName}`} trigger={<span className="ml-1 flex items-center gap-2 rounded-lg p-1 hover:bg-sunken"><Avatar name={userName} size={30} /><span className="hidden text-left leading-tight lg:block"><span className="block text-[13px] font-medium text-ink">{userName}</span><span className="block text-xs text-muted">{role}</span></span></span>}
               items={[{ label: `Signed in as ${userName}`, disabled: true, onSelect: () => {} }, 'sep', ...ROLES.map((r) => ({ label: `${r === role ? '✓ ' : '   '}Switch to ${r} (${PERSONAS[r].split(' ')[0]})`, onSelect: () => { setRole(r); log('role.switch', `Demo persona → ${r}`); toast(`Now viewing as ${r}. Navigation and permissions updated.`, 'info') } })), 'sep',
-                { label: 'Replay onboarding', onSelect: () => { setOnboarded(false); go('/onboarding') } }, { label: 'Reset demo data', onSelect: resetDemo }, { label: 'Sign out (demo)', onSelect: () => go('/login') }]} />
+                { label: 'Replay onboarding', onSelect: () => { setOnboarded(false); go('/onboarding') } }, { label: 'Reset demo data', onSelect: resetDemo }, { label: 'Sign out (demo)', onSelect: () => { setSignedIn(false); go('/login') } }]} />
           </div>
         </header>
         <div className="border-b border-line bg-surface px-3 py-2 xl:hidden"><DateRangePicker filters={filters} onChange={setFilters} /></div>

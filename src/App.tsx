@@ -78,7 +78,9 @@ function Routes() {
 
 function AppContent() {
   const { parts } = useRoute()
+  const { signedIn } = useStore()
   if (parts[0] === 'login') return <Login />
+  if (!signedIn) return <Login />
   if (parts[0] === 'onboarding') return <Onboarding />
   return <Shell><Routes /></Shell>
 }

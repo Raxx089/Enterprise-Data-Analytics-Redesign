@@ -39,6 +39,7 @@ interface ToastItem { id: number; msg: string; kind: Kind }
 interface ConfirmOpts { title: string; body: string; confirmLabel?: string; danger?: boolean }
 
 export interface Store {
+  signedIn: boolean; setSignedIn: (signedIn: boolean) => void
   theme: 'light' | 'dark'; setTheme: (t: 'light' | 'dark') => void
   role: RoleName; setRole: (r: RoleName) => void; userName: string
   workspace: string; setWorkspace: (w: string) => void
@@ -78,6 +79,7 @@ export const useStore = () => {
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
+  const [signedIn, setSignedIn] = useState(false)
   const [theme, setTheme] = usePersisted<'light' | 'dark'>('theme', 'light')
   const [role, setRole] = usePersisted<RoleName>('role', 'Executive')
   const [workspace, setWorkspace] = usePersisted('workspace', WORKSPACES[0])
@@ -133,11 +135,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const value: Store = useMemo(() => ({
-    theme, setTheme, role, setRole, userName, workspace, setWorkspace, filters, setFilters, collapsed, setCollapsed, onboarded, setOnboarded, perms, setPerms, level,
+    signedIn, setSignedIn, theme, setTheme, role, setRole, userName, workspace, setWorkspace, filters, setFilters, collapsed, setCollapsed, onboarded, setOnboarded, perms, setPerms, level,
     reports, setReports, analyses, setAnalyses, queries, setQueries, connections, setConnections, pipelines, setPipelines, rules, setRules, issues, setIssues, users, setUsers,
     audit, log, decisions, setDecisions, threads, setThreads, notifications, setNotifications, notifPrefs, setNotifPrefs, scenarios, setScenarios, chat, setChat, settings, setSettings,
     recentSearches, addRecentSearch, toast, confirm, openCreate, setOpenCreate, resetDemo,
-  }), [theme, role, userName, workspace, filters, collapsed, onboarded, perms, level, reports, analyses, queries, connections, pipelines, rules, issues, users, audit, log, decisions, threads, notifications, notifPrefs, scenarios, chat, settings, recentSearches, addRecentSearch, toast, confirm, openCreate, resetDemo]) // eslint-disable-line
+  }), [signedIn, theme, role, userName, workspace, filters, collapsed, onboarded, perms, level, reports, analyses, queries, connections, pipelines, rules, issues, users, audit, log, decisions, threads, notifications, notifPrefs, scenarios, chat, settings, recentSearches, addRecentSearch, toast, confirm, openCreate, resetDemo]) // eslint-disable-line
 
   return (
     <Ctx.Provider value={value}>

@@ -4,7 +4,7 @@ const sub = (cb: () => void) => {
   window.addEventListener('hashchange', cb)
   return () => window.removeEventListener('hashchange', cb)
 }
-const get = () => window.location.hash.slice(1) || '/overview'
+const get = () => window.location.hash.slice(1) || '/login'
 
 export function useRoute() {
   const full = useSyncExternalStore(sub, get)

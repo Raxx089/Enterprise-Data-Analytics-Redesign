@@ -15,7 +15,7 @@ function Logo() {
 }
 
 export default function Login() {
-  const { onboarded } = useStore()
+  const { onboarded, setSignedIn } = useStore()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [notice, setNotice] = useState('')
@@ -23,6 +23,7 @@ export default function Login() {
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setNotice('')
+    setSignedIn(true)
     go(onboarded ? '/overview' : '/onboarding')
   }
 
@@ -86,8 +87,7 @@ export default function Login() {
           <div className="my-6 flex items-center gap-3 text-xs text-muted"><span className="h-px flex-1 bg-line" />or<span className="h-px flex-1 bg-line" /></div>
           <button type="button" onClick={() => setNotice('Single sign-on is not connected in this demo. Use any work email and password to continue.')} className="h-11 w-full rounded-lg border border-line-strong bg-surface text-sm font-medium text-ink transition-colors hover:bg-sunken">Continue with SSO</button>
           <p className="mt-5 text-center text-xs leading-5 text-muted">Demo access: use any valid email and password. Nothing is sent to a server or saved.</p>
-          <p className="mt-7 text-center text-xs text-ink-2">New to Nexus? <button type="button" onClick={() => go('/onboarding')} className="font-semibold text-primary-ink hover:underline">Set up your workspace</button></p>
-          <p className="mt-3 text-center text-xs text-muted">Or <Link to="/overview" className="font-medium text-ink-2 underline decoration-line-strong underline-offset-2 hover:text-ink">explore the demo</Link></p>
+          <p className="mt-7 text-center text-xs text-ink-2">New to Nexus? Sign in to set up your workspace.</p>
         </div>
         <p className="mt-auto pt-10 text-center text-[11px] text-muted lg:absolute lg:bottom-6 lg:left-[55%] lg:right-0 lg:pt-0">© 2026 Nexus Analytics · Demo experience</p>
       </section>
